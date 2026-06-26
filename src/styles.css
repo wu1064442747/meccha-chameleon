@@ -100,6 +100,35 @@ summary {
   font-weight: 720;
 }
 
+.language-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.language-nav a {
+  min-width: 36px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-align: center;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.language-nav a:hover,
+.language-nav a[aria-current="page"] {
+  border-color: var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+
 .site-nav a,
 .site-footer a {
   transition:
@@ -685,6 +714,13 @@ figcaption {
   border-left: 5px solid var(--lime);
 }
 
+main[dir="rtl"] .comparison-copy p {
+  padding-right: 22px;
+  padding-left: 0;
+  border-right: 5px solid var(--lime);
+  border-left: 0;
+}
+
 .faq-list {
   display: grid;
   gap: 12px;
@@ -783,6 +819,14 @@ figcaption {
     gap: 18px;
     overflow-x: auto;
     padding-bottom: 12px;
+  }
+
+  .language-nav {
+    justify-content: flex-end;
+  }
+
+  .language-nav a {
+    padding: 7px 9px;
   }
 
   .hero-section {

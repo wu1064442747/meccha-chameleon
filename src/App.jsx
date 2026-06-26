@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { getContent, getLocalePage, localeMeta, locales } from "./content.js";
 
 const gameIframeUrl = "https://gg.storytellergame.io/mecha-chameleon/";
 const trailerEmbedUrl = "https://www.youtube-nocookie.com/embed/X-65m9poaSY";
@@ -31,171 +32,94 @@ function scrollToPlay(event) {
   });
 }
 
-const playSteps = [
-  {
-    title: "Paint your body",
-    text: "Hiders copy colors from the stage so their character blends into floors, walls, props, and shadows."
-  },
-  {
-    title: "Choose a believable spot",
-    text: "A perfect color match still fails if the silhouette looks strange. Hide where your pose makes sense."
-  },
-  {
-    title: "Scan like a seeker",
-    text: "Seekers look for color seams, odd outlines, repeated props, and tiny movement that breaks the illusion."
-  }
-];
+function App({ locale = "en" }) {
+  const page = getLocalePage(locale);
+  const content = getContent(locale);
 
-const mapRows = [
-  {
-    name: "Official stages",
-    detail: "Use these first to understand common hiding surfaces, camera angles, and seeker routes."
-  },
-  {
-    name: "Osaka map",
-    detail: "A Japanese-themed update added a new Osaka stage, making map searches more important for players."
-  },
-  {
-    name: "Community routes",
-    detail: "Player routes and hiding habits change each match, so revisit familiar maps with fresh seeker paths in mind."
-  }
-];
-
-const tips = [
-  "Sample colors from broad flat areas instead of noisy edges.",
-  "Hide near real objects so your outline has an explanation.",
-  "After moving, stop early; late motion is easier to catch than imperfect paint.",
-  "As seeker, check corners, repeated patterns, and props facing the wrong way."
-];
-
-const mediaItems = [
-  {
-    title: "Camouflage in plain sight",
-    src: "/media/meccha-chameleon-camouflage.jpg",
-    alt: "Meccha Chameleon gameplay showing a painted character blending into a stage"
-  },
-  {
-    title: "Hide and seek pressure",
-    src: "/media/meccha-chameleon-hide-and-seek.jpg",
-    alt: "Meccha Chameleon hide and seek gameplay with players moving through a map"
-  },
-  {
-    title: "Map reading",
-    src: "/media/meccha-chameleon-map-scene.jpg",
-    alt: "Meccha Chameleon map scene with surfaces used for camouflage"
-  },
-  {
-    title: "Seeker view",
-    src: "/media/meccha-chameleon-seeker.jpg",
-    alt: "Meccha Chameleon seeker gameplay while looking for hidden players"
-  }
-];
-
-const faqs = [
-  {
-    question: "What is Meccha Chameleon?",
-    answer:
-      "Meccha Chameleon is a multiplayer hide-and-seek game where hiders paint themselves to match the map while seekers search for players who do not quite belong."
-  },
-  {
-    question: "Where can I play Meccha Chameleon?",
-    answer:
-      "You can play Meccha Chameleon online on this page through the embedded browser game frame."
-  },
-  {
-    question: "Are there custom maps?",
-    answer:
-      "Maps are central to the game because each stage gives hiders different colors, surfaces, corners, and seeker routes to learn."
-  },
-  {
-    question: "How many players can play?",
-    answer:
-      "Meccha Chameleon works best as a seeker-versus-hiders match where multiple players can hide, scan, and react together."
-  }
-];
-
-function App() {
   return (
-    <main>
-      <Header />
-      <Hero />
-      <WhatIsSection />
-      <MediaSection />
-      <HowToPlaySection />
-      <WhereToPlaySection />
-      <MapsSection />
-      <TipsSection />
-      <ComparisonSection />
-      <FaqSection />
-      <Footer />
+    <main dir={page.dir}>
+      <Header content={content} locale={locale} />
+      <Hero content={content} />
+      <WhatIsSection content={content} />
+      <MediaSection content={content} />
+      <HowToPlaySection content={content} />
+      <WhereToPlaySection content={content} />
+      <MapsSection content={content} />
+      <TipsSection content={content} />
+      <ComparisonSection content={content} />
+      <FaqSection content={content} />
+      <Footer content={content} />
     </main>
   );
 }
 
-function Header() {
+function Header({ content, locale }) {
   return (
     <header className="site-header">
-      <a className="brand" href="#play" onClick={scrollToPlay} aria-label="Meccha Chameleon home">
+      <a className="brand" href="#play" onClick={scrollToPlay} aria-label={content.brand}>
         <span className="brand-mark" aria-hidden="true">
           MC
         </span>
-        <span>Meccha Chameleon</span>
+        <span>{content.brand}</span>
       </a>
-      <nav className="site-nav" aria-label="Primary navigation">
-        <a href="#play" onClick={scrollToPlay}>Play</a>
-        <a href="#how-to-play">How to Play</a>
-        <a href="#maps">Maps</a>
-        <a href="#faq">FAQ</a>
+      <nav className="site-nav" aria-label={content.navAriaLabel}>
+        <a href="#play" onClick={scrollToPlay}>{content.nav.play}</a>
+        <a href="#how-to-play">{content.nav.howToPlay}</a>
+        <a href="#maps">{content.nav.maps}</a>
+        <a href="#faq">{content.nav.faq}</a>
+      </nav>
+      <nav className="language-nav" aria-label={content.languageAriaLabel}>
+        {locales.map((localeKey) => (
+          <a
+            key={localeKey}
+            href={localeMeta[localeKey].path}
+            hrefLang={localeMeta[localeKey].lang}
+            aria-current={localeKey === locale ? "page" : undefined}
+          >
+            {localeMeta[localeKey].label}
+          </a>
+        ))}
       </nav>
     </header>
   );
 }
 
-function Hero() {
+function Hero({ content }) {
   return (
     <section className="hero-section" id="play">
       <div className="hero-stack">
         <div className="hero-copy">
           <div className="hero-text">
-            <h1>Meccha Chameleon</h1>
-            <p>
-              Play the chameleon hide and seek game online. Paint, hide, and blend
-              into the map before the seeker finds you.
-            </p>
+            <h1>{content.hero.title}</h1>
+            <p>{content.hero.text}</p>
           </div>
           <div className="hero-controls">
             <div className="hero-actions">
               <a className="button primary" href="#play" onClick={scrollToPlay}>
-                Play Now
+                {content.playButton}
               </a>
             </div>
-            <dl className="quick-facts" aria-label="Game facts">
-              <div>
-                <dt>Mode</dt>
-                <dd>Hiders vs seekers</dd>
-              </div>
-              <div>
-                <dt>Players</dt>
-                <dd>2-10 recommended</dd>
-              </div>
-              <div>
-                <dt>Focus</dt>
-                <dd>Paint, disguise, spot</dd>
-              </div>
+            <dl className="quick-facts" aria-label={content.quickFactsAriaLabel}>
+              {content.quickFacts.map((fact) => (
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
             </dl>
           </div>
         </div>
 
-        <GamePanel />
+        <GamePanel content={content} />
       </div>
       <div className="section-peek" aria-hidden="true">
-        <span>What is Meccha Chameleon?</span>
+        <span>{content.sectionPeek}</span>
       </div>
     </section>
   );
 }
 
-function GamePanel() {
+function GamePanel({ content }) {
   const panelRef = useRef(null);
   const [frameStyle, setFrameStyle] = useState({
     "--game-body-width": "925px",
@@ -240,20 +164,17 @@ function GamePanel() {
 
   return (
     <div className="game-ad-layout" ref={panelRef} style={frameStyle}>
-      <div className="ad-slot ad-slot-top" aria-label="Advertisement above game">
-        <AdFrame slot={adSlots.top} placement="top" />
+      <div className="ad-slot ad-slot-top" aria-label={content.game.adLabel.top}>
+        <AdFrame slot={adSlots.top} title={content.game.adTitle.top} />
       </div>
-      <div className="ad-slot ad-slot-left" aria-label="Advertisement left of game">
-        <AdFrame slot={adSlots.left} placement="left" />
+      <div className="ad-slot ad-slot-left" aria-label={content.game.adLabel.left}>
+        <AdFrame slot={adSlots.left} title={content.game.adTitle.left} />
       </div>
-      <div
-        className="game-panel"
-        aria-label="Playable Meccha Chameleon game"
-      >
+      <div className="game-panel" aria-label={content.game.playableLabel}>
         <div className="game-topbar">
           <span className="signal-dot" />
-          <span>Browser play</span>
-          <span className="game-status">online</span>
+          <span>{content.game.browserPlay}</span>
+          <span className="game-status">{content.game.status}</span>
         </div>
         <div className="game-frame-window">
           <iframe
@@ -263,18 +184,18 @@ function GamePanel() {
             allow="accelerometer; gyroscope; gamepad; autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write"
             allowFullScreen
             sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts allow-same-origin allow-downloads allow-popups-to-escape-sandbox"
-            title="MECCHA CHAMELEON Game"
+            title={content.game.iframeTitle}
           />
         </div>
       </div>
-      <div className="ad-slot ad-slot-right" aria-label="Advertisement right of game">
-        <AdFrame slot={adSlots.right} placement="right" />
+      <div className="ad-slot ad-slot-right" aria-label={content.game.adLabel.right}>
+        <AdFrame slot={adSlots.right} title={content.game.adTitle.right} />
       </div>
     </div>
   );
 }
 
-function AdFrame({ slot, placement }) {
+function AdFrame({ slot, title }) {
   const adDocument = `<!doctype html>
     <html>
       <head>
@@ -312,7 +233,7 @@ function AdFrame({ slot, placement }) {
   return (
     <iframe
       className="ad-frame"
-      title={`Advertisement ${placement}`}
+      title={title}
       width={slot.width}
       height={slot.height}
       srcDoc={adDocument}
@@ -322,59 +243,43 @@ function AdFrame({ slot, placement }) {
   );
 }
 
-function WhatIsSection() {
+function WhatIsSection({ content }) {
   return (
     <section className="content-band answer-band" id="what-is">
       <div className="section-heading">
-        <h2>What is Meccha Chameleon?</h2>
-        <p>
-          It is a multiplayer hide-and-seek game about color, camouflage, and
-          noticing what does not fit.
-        </p>
+        <h2>{content.whatIs.title}</h2>
+        <p>{content.whatIs.intro}</p>
       </div>
       <div className="answer-layout">
-        <p className="answer-lead">
-          Meccha Chameleon puts one team in hiding and another team in pursuit.
-          Hiders paint their white bodies with colors from the map, then pose in
-          places where their shape and color look natural. Seekers win by finding
-          every hidden player before time runs out.
-        </p>
+        <p className="answer-lead">{content.whatIs.lead}</p>
         <figure className="answer-image">
-          <img
-            src="/media/meccha-chameleon-cover.jpg"
-            alt="Meccha Chameleon key art showing the colorful camouflage characters"
-            loading="lazy"
-          />
-          <figcaption>MECCHA CHAMELEON key art.</figcaption>
+          <img src="/media/meccha-chameleon-cover.jpg" alt={content.whatIs.imageAlt} loading="lazy" />
+          <figcaption>{content.whatIs.caption}</figcaption>
         </figure>
       </div>
     </section>
   );
 }
 
-function MediaSection() {
+function MediaSection({ content }) {
   return (
     <section className="content-band media-band" id="media">
       <div className="section-heading">
-        <h2>Gameplay Video and Pictures</h2>
-        <p>
-          Screenshots help new players understand the core loop faster: paint
-          your body, choose a surface, then avoid standing out when the seeker
-          scans the room.
-        </p>
+        <h2>{content.media.title}</h2>
+        <p>{content.media.intro}</p>
       </div>
       <div className="media-layout">
         <div className="trailer-card">
           <iframe
             src={trailerEmbedUrl}
-            title="MECCHA CHAMELEON trailer video"
+            title={content.media.trailerTitle}
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />
         </div>
         <div className="screenshot-grid">
-          {mediaItems.map((item) => (
+          {content.media.items.map((item) => (
             <figure key={item.title}>
               <img src={item.src} alt={item.alt} loading="lazy" />
               <figcaption>{item.title}</figcaption>
@@ -386,15 +291,15 @@ function MediaSection() {
   );
 }
 
-function HowToPlaySection() {
+function HowToPlaySection({ content }) {
   return (
     <section className="content-band" id="how-to-play">
       <div className="section-heading narrow">
-        <h2>How to Play</h2>
-        <p>Use the map as your disguise, then read the room like a seeker.</p>
+        <h2>{content.howToPlay.title}</h2>
+        <p>{content.howToPlay.intro}</p>
       </div>
       <div className="step-rail">
-        {playSteps.map((step, index) => (
+        {content.howToPlay.steps.map((step, index) => (
           <article className="step-item" key={step.title}>
             <span className="step-number">{String(index + 1).padStart(2, "0")}</span>
             <h3>{step.title}</h3>
@@ -406,48 +311,37 @@ function HowToPlaySection() {
   );
 }
 
-function WhereToPlaySection() {
+function WhereToPlaySection({ content }) {
   return (
     <section className="split-band" id="where-to-play">
       <div>
-        <h2>Where to Play</h2>
-        <p>
-          If you searched for where to play Meccha Chameleon, start with the
-          embedded game on this page. The online version loads directly in your
-          browser, so you can jump into the hide-and-seek match from here.
-        </p>
+        <h2>{content.whereToPlay.title}</h2>
+        <p>{content.whereToPlay.text}</p>
       </div>
       <div className="play-options">
         <a href="#play" onClick={scrollToPlay}>
-          <span>Browser</span>
-          <strong>Play online here</strong>
+          <span>{content.whereToPlay.optionLabel}</span>
+          <strong>{content.whereToPlay.optionTitle}</strong>
         </a>
       </div>
     </section>
   );
 }
 
-function MapsSection() {
+function MapsSection({ content }) {
   return (
     <section className="content-band maps-band" id="maps">
       <div className="section-heading">
-        <h2>Meccha Chameleon Maps</h2>
-        <p>
-          Maps decide how strong a hiding spot can be. Look for surfaces with
-          repeatable color, believable shapes, and routes seekers must scan.
-        </p>
+        <h2>{content.maps.title}</h2>
+        <p>{content.maps.intro}</p>
       </div>
       <div className="maps-layout">
         <figure className="map-preview">
-          <img
-            src="/media/meccha-chameleon-map-scene.jpg"
-            alt="Meccha Chameleon map screenshot showing stage surfaces used for hiding"
-            loading="lazy"
-          />
-          <figcaption>Actual gameplay screenshot from the map section.</figcaption>
+          <img src="/media/meccha-chameleon-map-scene.jpg" alt={content.maps.imageAlt} loading="lazy" />
+          <figcaption>{content.maps.caption}</figcaption>
         </figure>
         <div className="map-list">
-          {mapRows.map((map) => (
+          {content.maps.rows.map((map) => (
             <article key={map.name}>
               <h3>{map.name}</h3>
               <p>{map.detail}</p>
@@ -459,15 +353,15 @@ function MapsSection() {
   );
 }
 
-function TipsSection() {
+function TipsSection({ content }) {
   return (
     <section className="dark-band">
       <div className="section-heading light">
-        <h2>Best Hiding Tips</h2>
-        <p>Good camouflage is part color science and part acting normal.</p>
+        <h2>{content.tips.title}</h2>
+        <p>{content.tips.intro}</p>
       </div>
       <ul className="tips-list">
-        {tips.map((tip) => (
+        {content.tips.items.map((tip) => (
           <li key={tip}>{tip}</li>
         ))}
       </ul>
@@ -475,37 +369,30 @@ function TipsSection() {
   );
 }
 
-function ComparisonSection() {
+function ComparisonSection({ content }) {
   return (
     <section className="comparison-band">
       <div>
-        <h2>Meccha Chameleon vs Hide and Seek</h2>
+        <h2>{content.comparison.title}</h2>
       </div>
       <div className="comparison-copy">
-        <p>
-          Traditional hide and seek is about physical cover. Meccha Chameleon is
-          about visual camouflage: you can be in plain sight if your paint,
-          shape, and position convince the seeker.
-        </p>
-        <p>
-          It also differs from many prop-hunt games. Instead of only becoming an
-          object, the central trick is painting your body to disappear into the
-          map.
-        </p>
+        {content.comparison.paragraphs.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
       </div>
     </section>
   );
 }
 
-function FaqSection() {
+function FaqSection({ content }) {
   return (
     <section className="content-band faq-band" id="faq">
       <div className="section-heading">
-        <h2>FAQ</h2>
-        <p>Fast answers for players searching the game name, maps, and play options.</p>
+        <h2>{content.faq.title}</h2>
+        <p>{content.faq.intro}</p>
       </div>
       <div className="faq-list">
-        {faqs.map((faq) => (
+        {content.faq.items.map((faq) => (
           <details key={faq.question}>
             <summary>{faq.question}</summary>
             <p>{faq.answer}</p>
@@ -516,15 +403,15 @@ function FaqSection() {
   );
 }
 
-function Footer() {
+function Footer({ content }) {
   return (
     <footer className="site-footer">
-      <span>Meccha Chameleon</span>
-      <nav aria-label="Footer navigation">
-        <a href="#play" onClick={scrollToPlay}>Play</a>
-        <a href="#where-to-play">Where to Play</a>
-        <a href="#maps">Maps</a>
-        <a href="#faq">FAQ</a>
+      <span>{content.brand}</span>
+      <nav aria-label={content.footerAriaLabel}>
+        <a href="#play" onClick={scrollToPlay}>{content.nav.play}</a>
+        <a href="#where-to-play">{content.whereToPlay.title}</a>
+        <a href="#maps">{content.nav.maps}</a>
+        <a href="#faq">{content.nav.faq}</a>
       </nav>
     </footer>
   );
