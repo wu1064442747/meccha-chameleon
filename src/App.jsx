@@ -20,8 +20,8 @@ const adSlots = {
   },
   right: {
     key: "cd7cff42ef840ccfbe97b2fee5e17273",
-    width: 320,
-    height: 50
+    width: 160,
+    height: 600
   }
 };
 
@@ -220,7 +220,7 @@ function GamePanel() {
       }
 
       const layoutWidth = panel.parentElement.clientWidth - 2;
-      const desktopSideAdWidth = 160 + 320 + 24;
+      const desktopSideAdWidth = 160 + 160 + 24;
       const availableWidth = window.matchMedia("(min-width: 1041px)").matches
         ? layoutWidth - desktopSideAdWidth
         : layoutWidth;

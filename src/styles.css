@@ -154,7 +154,7 @@ summary {
   --game-body-height: 520px;
   --game-scale: 0.4815;
   display: grid;
-  grid-template-columns: minmax(160px, auto) minmax(0, var(--game-body-width)) minmax(320px, auto);
+  grid-template-columns: minmax(160px, auto) minmax(0, var(--game-body-width)) minmax(160px, auto);
   grid-template-areas:
     ". top ."
     "left game right";
@@ -189,8 +189,8 @@ summary {
 
 .ad-slot-right {
   grid-area: right;
-  width: 320px;
-  min-height: 50px;
+  width: 160px;
+  min-height: 600px;
 }
 
 .ad-frame {
