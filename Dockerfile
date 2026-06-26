@@ -9,6 +9,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY index.html ./
 COPY public ./public
+COPY scripts ./scripts
 COPY src ./src
 
 RUN pnpm build
