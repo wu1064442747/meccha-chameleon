@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const gameIframeUrl = "https://gg.storytellergame.io/mecha-chameleon/";
-const steamUrl = "https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/";
-const workshopUrl = "https://steamcommunity.com/app/4704690/workshop/";
 const trailerEmbedUrl = "https://www.youtube-nocookie.com/embed/X-65m9poaSY";
 const gameSourceWidth = 1920;
 const gameSourceHeight = 1080;
@@ -58,8 +56,8 @@ const mapRows = [
     detail: "A Japanese-themed update added a new Osaka stage, making map searches more important for players."
   },
   {
-    name: "Steam Workshop",
-    detail: "Custom maps expand the game with community stages such as lobbies, galleries, stations, and themed rooms."
+    name: "Community routes",
+    detail: "Player routes and hiding habits change each match, so revisit familiar maps with fresh seeker paths in mind."
   }
 ];
 
@@ -102,17 +100,17 @@ const faqs = [
   {
     question: "Where can I play Meccha Chameleon?",
     answer:
-      "You can play the browser version on this page through the embedded game frame, and you can also visit the official Steam page for the PC release."
+      "You can play Meccha Chameleon online on this page through the embedded browser game frame."
   },
   {
     question: "Are there custom maps?",
     answer:
-      "Yes. Steam Workshop support makes maps a key part of the game, with community-made stages for different hiding styles."
+      "Maps are central to the game because each stage gives hiders different colors, surfaces, corners, and seeker routes to learn."
   },
   {
     question: "How many players can play?",
     answer:
-      "The Steam listing recommends multiplayer sessions for 2 to 10 players, which fits the seeker-versus-hiders format."
+      "Meccha Chameleon works best as a seeker-versus-hiders match where multiple players can hide, scan, and react together."
   }
 ];
 
@@ -149,9 +147,6 @@ function Header() {
         <a href="#maps">Maps</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a className="header-action" href={steamUrl} target="_blank" rel="noreferrer">
-        Steam
-      </a>
     </header>
   );
 }
@@ -172,9 +167,6 @@ function Hero() {
             <div className="hero-actions">
               <a className="button primary" href="#play" onClick={scrollToPlay}>
                 Play Now
-              </a>
-              <a className="button secondary" href={steamUrl} target="_blank" rel="noreferrer">
-                Play on Steam
               </a>
             </div>
             <dl className="quick-facts" aria-label="Game facts">
@@ -350,10 +342,10 @@ function WhatIsSection() {
         <figure className="answer-image">
           <img
             src="/media/meccha-chameleon-cover.jpg"
-            alt="Official Meccha Chameleon key art from the Steam page"
+            alt="Meccha Chameleon key art showing the colorful camouflage characters"
             loading="lazy"
           />
-          <figcaption>Official Steam key art for MECCHA CHAMELEON.</figcaption>
+          <figcaption>MECCHA CHAMELEON key art.</figcaption>
         </figure>
       </div>
     </section>
@@ -421,18 +413,14 @@ function WhereToPlaySection() {
         <h2>Where to Play</h2>
         <p>
           If you searched for where to play Meccha Chameleon, start with the
-          embedded game on this page. For the official PC release, use the Steam
-          page so you can check current platform and purchase details.
+          embedded game on this page. The online version loads directly in your
+          browser, so you can jump into the hide-and-seek match from here.
         </p>
       </div>
       <div className="play-options">
         <a href="#play" onClick={scrollToPlay}>
           <span>Browser</span>
           <strong>Play online here</strong>
-        </a>
-        <a href={steamUrl} target="_blank" rel="noreferrer">
-          <span>Official PC listing</span>
-          <strong>Open Steam page</strong>
         </a>
       </div>
     </section>
@@ -465,9 +453,6 @@ function MapsSection() {
               <p>{map.detail}</p>
             </article>
           ))}
-          <a className="inline-link" href={workshopUrl} target="_blank" rel="noreferrer">
-            Browse Steam Workshop maps
-          </a>
         </div>
       </div>
     </section>
